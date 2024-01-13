@@ -9,6 +9,8 @@
     <script src="https://kit.fontawesome.com/5562aae272.js" crossorigin="anonymous"></script>
 </head>
 <body>
+
+
     <!-- navbar area start -->
     <div class="navbar bg-blue-200">
         <div class="flex-1">
@@ -17,9 +19,10 @@
 
         <!-- Login or Signup button -->
       <div class="gap-3">
-        <a href="login.html"><button class="btn btn-sm"><i class="fa-solid fa-user"></i>Login</button></a>
-        <a href="register.html"><button class="btn btn-sm mr-5">Register</button></a>
+       <button id="loginBtn" class="btn btn-sm"><i class="fa-solid fa-user"></i>Login</button>
+       <button id="registerBtn" class="btn btn-sm mr-5">Register</button>
       </div>
+    
 
         <div class="flex-none">
           <div class="dropdown dropdown-end">
@@ -59,5 +62,9 @@
           </div>
         </div>
       </div>
+
+      <script type="module" src="app.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.all.min.js"></script>
+
 </body>
 </html>
