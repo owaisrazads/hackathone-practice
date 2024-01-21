@@ -1,18 +1,24 @@
-import { createUserWithEmailAndPassword,} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-import { auth , db, storage } from './config.js';
-import { collection, addDoc} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js'
+import { createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js';
+import { auth, db, storage } from './config.js';
+import { collection, addDoc} from "https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js";
+import { ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.10.0/firebase-storage.js'
 
 const form = document.querySelector('#form');
 const name = document.querySelector('#name');
 const email = document.querySelector('#email');
 const img = document.querySelector('#img');
 const password = document.querySelector('#password');
-const repeatPassword = document.querySelector('#repeatPassword');
+const register = document.querySelector('#register');
+
+
+
+
+
 
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
+   
     createUserWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
             const user = userCredential.user;
@@ -28,7 +34,7 @@ form.addEventListener('submit', (event) => {
                         profileUrl: url
                     }).then((res) => {
                         console.log(res);
-                        window.location = 'home.html'
+                        window.location = 'login.html'
                     }).catch((err) => {
                         console.log(err);
                     })
@@ -39,9 +45,9 @@ form.addEventListener('submit', (event) => {
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorMessage);
+            // console.log(errorMessage);
             alert(errorCode)
-            // register.innerHTML = "Register"
+            register.innerHTML = "Register"
         });
 
 

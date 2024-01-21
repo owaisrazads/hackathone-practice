@@ -1,5 +1,6 @@
-import { signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { signInWithEmailAndPassword ,onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
 import { auth } from "./config.js";
+
 
 const form = document.querySelector('#form');
 const email = document.querySelector('#email');
@@ -7,9 +8,9 @@ const password = document.querySelector('#password');
 const loginBtn = document.querySelector('#loginBtn');
 
 
+
 onAuthStateChanged(auth, (user) => {
     if (user) {
-     
       const uid = user.uid;
       console.log(uid);
       window.location = "home.html"
@@ -21,9 +22,18 @@ onAuthStateChanged(auth, (user) => {
   });
 
 
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
+function load() {
+    loginBtn.innerHTML = `<div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>`
+}
 
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    load()
     signInWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
             const user = userCredential.user;
@@ -41,3 +51,7 @@ onAuthStateChanged(auth, (user) => {
         });
 
 })
+
+
+
+
