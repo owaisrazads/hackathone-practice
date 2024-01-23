@@ -14,6 +14,7 @@ onAuthStateChanged(auth, (user) => {
       const uid = user.uid;
       console.log(uid);
       window.location = "home.html"
+      
       // ...
     } else {
       // User is signed out
@@ -22,18 +23,11 @@ onAuthStateChanged(auth, (user) => {
   });
 
 
-function load() {
-    loginBtn.innerHTML = `<div class="spinner">
-    <div class="bounce1"></div>
-    <div class="bounce2"></div>
-    <div class="bounce3"></div>
-  </div>`
-}
 
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
-    load()
+   
     signInWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
             const user = userCredential.user;
@@ -44,8 +38,6 @@ form.addEventListener('submit', (event) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorMessage);
-            // console.log(errorCode);
-            // const errSplice = errorCode
             alert(errorCode)
             loginBtn.innerHTML = `Login`
         });
