@@ -1,6 +1,6 @@
 import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { auth, db } from "./config.js";
-import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { collection, addDoc, getDocs, doc, deleteDoc, Timestamp  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
 
@@ -26,71 +26,61 @@ const form = document.querySelector('#form');
 const title = document.querySelector('#title');
 const description = document.querySelector('#description');
 const logout = document.querySelector('#logout');
-const container = document.querySelector('.container')
+const container = document.querySelector('.container');
+const loadingIndicator = document.querySelector('#loading');
 
 
 
 
-//Get Data form firestore
 
-
+//get data from firestore();
 
 async function getDataFromFirestore() {
+    loadingIndicator.innerHTML = '<span class="loading loading-spinner loading-lg"></span>';
+
     let arr = [];
     const querySnapshot = await getDocs(collection(db, "todos"));
     querySnapshot.forEach((doc) => {
         arr.push(doc.data());
     });
     console.log(arr);
-
-    arr.map((item) => {
-
-        
+    arr.map((item) => {       
         container.innerHTML += `   <div class="card w-96 bg-base-100 shadow-xl">
         <div class="card-body">
           <p> <span class="text-2xl ">Title:${item.title}</span> </p>
           <p> <span class="text-2xl ">Description:${item.description}</span> </p>
           <div class="card-actions justify-end">
-          <button class="btn btn-error" id="dltBtn">Delete</button>
-          <button class="btn btn-info" id="editBtn">Edit</button>
+          <button type="submit" class="btn btn-error" id="dltBtn">Delete</button>
+          <button type="submit" class="btn btn-info" id="editBtn">Edit</button>
           </div>
         </div>
       </div>`
-    })
-}
-
-const dltBtn = document.querySelector('#dltBtn')
-const editBtn = document.querySelector('#editBtn')
-
-
-dltBtn.forEach((brn, index)=>{
-    dltBtn.addEventListener('click', ()=>{
-        
-    })
-})
+    });
+    loadingIndicator.innerHTML = ''; // Hide loading indicator after data is loaded 
+};
 
 
 
-//Add data from firestore
+//add Data From Firestore();
 
-form.addEventListener('submit', async (event) => {
+form.addEventListener('submit', async (event) => { 
     event.preventDefault()
     container.innerHTML = ''
     try {
+        loadingIndicator.innerHTML = '<span class="loading loading-spinner loading-lg"></span>';
         const docRef = await addDoc(collection(db, "todos"), {
             title: title.value,
             description: description.value,
-            uid: auth.currentUser.uid
+            uid: auth.currentUser.uid,
+            postDate: Timestamp.fromDate(new Date())
         });
         console.log("Document written with ID: ", docRef.id);
         getDataFromFirestore()
         title.value = ''
         description.value = ''
-
     } catch (e) {
         console.error("Error adding document: ", e);
     }
-
 })
 
 
